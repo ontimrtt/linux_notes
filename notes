@@ -96,36 +96,32 @@ linux文件分类：文本（cat）、二进制（可执行）、数据格式（
 
 device文件：character、block
 
-socket文件、fifo文件
+socket文件
 
-文件名命名避免特殊字符
+fifo文件
 
+文件命名避免特殊字符
 .开头的文件名表示隐藏文件（ls -al）
 
 usr -unix software resource 软件相关
 var -variable 系统运行相关
 
-目录可以相互链接
-
-FHS规定了不可少的目录
+lsb:linux standard base
+FHS:Filesystem Hierarchy Standard
 
 bin存放指令，sbin开机、修复、还原系统需要的指令
+echo $PATH 环境变量
 
 .当前目录 ..上一层目录
-
-目录可以使用本地文件系统，也可以使用网络文件系统NFS
-
 ./xxx 在当前目录执行xxx文件，而不是先去bin中查询xxx指令执行
 
-lsb:linux standard base
-
+目录可以相互链接
+目录可以使用本地文件系统，也可以使用网络文件系统NFS
 centOS 7以后，run目录，内存中暂存
 
 cd ~dmtsai 去到dmtsai的用户目录
-
 cd - 切换回上次访问的目录
-
 pwd -P 查看当前完整路径（非链接） 
 
-echo $PATH 环境变量
+
 
