@@ -1,0 +1,131 @@
+# linux_notes
+linux初级篇--学习笔记（简）
+linux学习笔记
+
+硬盘分区：
+1.简单分区 仅区分根目录和内存置换空间 / swap
+2.推荐分区 区分根目录和内存置换空间，并且把大容量的目录和读写频繁的目录从根目录独立出来
+例如： /boot / /home /var swap
+
+linux系统中，每个装置都被当成一个文件来对待，每个装置都会有文件名
+
+linux系统，挂载的理解，当前挂载的目录作为入口点，加载硬盘数据
+
+linux和Windows双系统安装，推荐先装Windows。因为Windows安装会覆盖MBR分区表
+
+磁盘装置文件名，真实SATA/USB装置为/dev/sd[a-p],虚拟机装置/dev/vd[a-p]
+
+MBR和分区表都在磁盘的第一个扇区，MBR:446 bytes,分区表：64bytes
+
+磁盘容量大于2TB，使用GPT分区，没有延伸分区和逻辑分区的概念
+
+开机流程：BIOS-->MBR-->boot loader-->核心文件
+
+boot loader作用：提供选单，加载核心，转交控制权给其它loader
+
+
+centOS熟悉：
+重启X Window：alt+ctrl+backspace
+
+linux预设6个terminal，切换方式为alt+Ctrl+f1~f6。在tty1~tty6启动图形桌面，命令；startx
+
+更改terminal语言
+locale 查看支持的语言
+更改语言为英语
+LANG=en_US.utf8
+export LC_ALL=en_US.utf8
+更改语言为中文
+LANG=zh_TW.utf8
+export LC_ALL=zh_TW.utf8
+
+简单小指令
+date，cal，bc //日期，日历，计算器
+
+热键
+tab 命令、文件、参数补全
+ctrl+c 中断目前的程序
+ctrl+d EOF，结束输入，离开终端
+shift+pgup/pgdn 终端显示前页、下页
+
+指令求助
+man command
+会进入man page，输入q离开；
+向下、向上查询关键字date，输入/date或者?date
+info command
+command --help 
+
+数字1~7的含义：见PDF第四版193页
+
+帮助文档 /usr/share/doc/
+
+nano 文本编辑器
+
+关机前
+sync 同步内存数据到硬盘
+shutdown -c 取消关机
+shutdown reboot halt 下电相关
+正确的用法：sync;sync;reboot
+
+文件权限
+ll或者ls -al
+数字表示连接数，显示用户操作权限的次序为Owner、group、others。
+rwx，读写执行；无权限，---。rwx数值依次是4,2,1；可能的组合值为0~7.
+
+更改文件权限
+chgrp,chown,chmod
+//修改群组、所有者、权限
+ugoa，a表示all，包含了ugo
+chmod a+x filename
+//为所有用户添加可执行权限
+chmod u=rwx,go=rx filename
+//修改权限字母版
+chmod 751 filename
+//修改权限数字版
+
+linux文件是否能被执行，与扩展名无关，关系文件是否具有x权限
+
+目录的rwx
+r：列出该目录结构
+w: 新建、mv、rm相关
+x：用户能否进入该目录，c相关
+
+值得注意的地方
+如果要向某个账号开放某个文件的读或者执行权限，则至少要向此账号开放该文件的所在目录的x权限。
+
+linux文件分类：文本（cat）、二进制（可执行）、数据格式（last）
+
+device文件：character、block
+
+socket文件、fifo文件
+
+文件名命名避免特殊字符
+
+.开头的文件名表示隐藏文件（ls -al）
+
+usr -unix software resource 软件相关
+var -variable 系统运行相关
+
+目录可以相互链接
+
+FHS规定了不可少的目录
+
+bin存放指令，sbin开机、修复、还原系统需要的指令
+
+.当前目录 ..上一层目录
+
+目录可以使用本地文件系统，也可以使用网络文件系统NFS
+
+./xxx 在当前目录执行xxx文件，而不是先去bin中查询xxx指令执行
+
+lsb:linux standard base
+
+centOS 7以后，run目录，内存中暂存
+
+cd ~dmtsai 去到dmtsai的用户目录
+
+cd - 切换回上次访问的目录
+
+pwd -P 查看当前完整路径（非链接） 
+
+echo $PATH 环境变量
+
