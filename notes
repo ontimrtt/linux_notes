@@ -66,7 +66,8 @@ shutdown -c 取消关机
 shutdown reboot halt 下电相关
 正确的用法：sync;sync;reboot
 
-文件权限
+
+文件权限：
 ll或者ls -al
 数字表示连接数，显示用户操作权限的次序为Owner、group、others。
 rwx，读写执行；无权限，---。rwx数值依次是4,2,1；可能的组合值为0~7.
@@ -89,12 +90,13 @@ r：列出该目录结构
 w: 新建、mv、rm相关
 x：用户能否进入该目录，c相关
 
-值得注意的地方
 如果要向某个账号开放某个文件的读或者执行权限，则至少要向此账号开放该文件的所在目录的x权限。
 
-linux文件分类：文本（cat）、二进制（可执行）、数据格式（last）
 
-device文件：character、block
+文件目录：
+linux文件分类:文本（cat）、二进制（可执行）、数据格式（last）
+
+device文件:character、block
 
 socket文件
 
