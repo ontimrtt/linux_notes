@@ -125,5 +125,240 @@ cd ~dmtsai 去到dmtsai的用户目录
 cd - 切换回上次访问的目录
 pwd -P 查看当前完整路径（非链接） 
 
+echo $PATH 环境变量之一PATH
 
+复制、移动文件可能改变文件权限，注意带参
+
+查阅文件指令：cat,tac,nl,more,less,head,tail,od
+
+文件特殊权限 SUID SGID SBIT
+
+文件搜寻
+根据PATH查找可执行文件which
+查找特定目录，whereis 
+根据/var/lib/mlocate搜索文件，locate 
+updatedb配合locate使用，用于更新数据库
+全盘搜索，find
+
+可以用inode判断不同文件名是否为相同文件
+
+压缩指令
+gzip,用zcat/zmore/zless查看压缩后的文本文件
+bzip2,用bzcat/bzless/bzgrep查看压缩后的文本文件
+bzip2比gzip压缩率更高；压缩等级1~9，默认6
+xz具有更高的压缩率，但耗时久
+
+打包、压缩后的文件注意命名，如.tar.gz
+
+KDE	K Desktop Environment
+
+dos和Unix转换 
+dos2unix
+unix2dos
+
+语系编码转换	iconv
+
+自定义命令别名
+alias lm='ls -al'
+判断指令是否为内建指令
+type xxx
+指令过长，用\连接，反斜杠的作用是跳脱回车键
+指令快速编辑
+ctrl+u 从光标处向前删除指令
+ctrl+k 从光标处向后删除指令
+ctrl+a 光标移到指令的最前面
+ctrl+e 光标移到指令的最后面
+
+linux中单引号和双引号的区别：
+双引号可以保留变量的含义，如果用单引号可能就识别成了字符
+
+反单引号：优先执行
+
+定义变量
+myname=Vbird
+PATH=#{PATH};/home/new/one
+env	查看环境变量
+set	查看环境变量和自定义变量
+export 变量名称：自定义变量转换成环境变量
+
+echo $? 查看上一条执行指令的返回值
+
+bash本身是一个程序，有自己的PID
+在bash中下达的指令，都是由它衍生的子程序
+子程序仅继承环境变量，不继承自定义变量
+
+程序设计中，读取键盘输入 read
+read -pt 含义；-p prompt -t wait time
+read xxx 等待输入；输入后回车，xxx获取到输入的内容
+声明变量类型，declare/typeset
+declare -aixr 含义：array,integer,export,readonly
+数组，中括号引用下标，不需要提前声明数组长度
+
+ctrl组合：
+c终止当前命令 
+d输入结束
+m回车
+s暂停屏幕输出
+q恢复屏幕输出
+u删除整列命令？？
+z暂停当前命令
+
+ulimit 限制用户可用系统资源
+
+
+通配符相关
+*	N个任意字符
+？	一个任意字符
+[abc]  元素之一
+[a-c]  区间内
+[^abc] 非引用元素
+
+值得留意的特殊符号
+#	注释
+\	命令换行连接符
+|	管线
+~	用户home目录
+$	取变量
+&	背景下运行指令？？？
+！	非
+>	输出重定向，覆盖
+>>	输出重定向，追加
+<	文件内容取代键盘输入
+<<	后接重定向输入的结束标志
+''	'$a'表示文本$a
+""	"$a"表示变量a
+··	优先执行中间指令
+()	更高优先级
+{}	区块命令的组合？？？
+
+标准错误输出重定向
+2>	2>>
+find /home -name .bashrc > log 2> errorlog
+写入同一个文件
+find /home -name .bashrc > log 2>&1
+或者
+find /home -name .bashrc &> log
+
+错误信息不显示
+find /home -name .bashrc 2> /dev/null
+
+
+cat > newfile << "eof"
+从键盘读取输入，"efo"字符串为结束标志，写入到newfile中
+
+相关指令连续执行
+cmd1 && cmd2	命令1执行成功才执行命令2
+cmd1 || cmd2	命令1执行错误才执行命令2
+
+重定向到命令
+ls -al /etc 2>&1 | less
+用less查看标准输出、标准错误输出
+
+last | grep 'root' | cut -d ' ' -f 1
+last命令查找含root的行，以空格为分隔符，取出第一列
+
+sort	排序指令
+uniq	删除重复的行
+wc		统计（行、words、字符）
+
+ls -l / | tee -a ~/homefile | more
+标准输出保存到homefile中，同时也输出到屏幕上。-a表示追加方式
+
+tr		删除、替换等
+col		tab转空格
+join	合并文件相同列
+paste	每一行内容叠加
+expand	空格转tab
+
+
+split 分割文件
+split [-bl] filename xxx
+xxx表示分割后小文件的命名前缀
+
+合并分割的文件
+cat xxx* >> filename1
+
+对于不支持管道重定向的命令，可以考虑xargs
+xargs可以读取stdin，并按空格或者换行符分割获取arguments
+
+减号的用法之一
+tar -cvf - /home | tar -xvf - -C /tmp/homebak
+先打包，再解包
+
+通配符是bash操作接口的一个功能
+正规表示法是字符串处理的一种表示方式
+
+alias grep grep--color=auto	颜色突出查找的字符串
+
+
+正则表达式
+[]括号中取值是一个范围，加上括号表示其中的一个取值，即一个字符
+''引号中可以包含字符串
+^ 如果出现在[]中，非；如果出现在[]外，行首
+$ 用在[]外，表示行尾
+
+换行字符
+Windows下，^M$
+linux下，$
+
+如果以行尾字符匹配来查找的话，要转成linux格式。否则可能会影响查找结果。
+例如， '\.$'只能匹配到 .$ ，不能匹配到 .^M$
+
+查找空行，'^$'
+
+特殊符号
+[:alnum:] 字母表+数字
+[:alpha:] 字母表
+[:blank:] tab或space
+[:cntrl:] 控制字符
+[:digit:] 数字
+[:graph:] 除tab和space外字符
+[:lower:] 小写字母
+[:print:] 可打印字符
+[:punct:] 标点符号
+[:upper:] 大写字母
+[:space:] 可产生空格的字符
+[:xdigit:] 16进制字符取值
+
+正则表达式中的*和.
+. 一个任意字符
+* 不能单独使用。跟在一个字符后，表示重复该字符任意多次（0到无穷）
+.* 相当于通配符*，即0到无穷个任意字符
+
+重复字符n次
+两个连续的o： 'o\{2\}'
+两个及以上连续的o： 'o\{2,\}'
+两到四个连续的o：'o\{2,4\}'
+
+sed '3,$d' 删除第3到最后一行
+sed '2i string' 在第2行首添加string
+sed '2a string' 在第2行末添加string
+sed '2,5c string' 把第2到5行替换成string
+sed -n '2,5p' 安静模式打印第2到5行
+sed 's/old string/new string/g' 字符串替换
+
+sed和正则表达式组合的精髓：分解
+
+使用举例
+nl /etc/host.conf | sed '3,$d'  //管线重定向
+sed '3,$d' /etc/host.conf 	//直接修改文件内容
+
+/sbin/ifconfig eth0
+解析：eth0是ifconfig的参数，指定了指令的完整路径
+
+
+过滤掉空行和注释行的常规写法
+grep -v '^$' test.txt | grep -v '^#'
+延伸的正则表达式可以写成
+egrep -v '^$|^#' test.txt
+
+扩展的正则表达式符合意义
+
++ 重复前一个RE字符1+次
+？重复前一个RE字符0+次
+| 连接两个字符串，表示或
+() 括号内看作一个RE字符
+()+ 重复前一个RE字符1+次
+
+echo 'AxyzxyzxyzC' | egrep 'A(xyz)+C'
 
